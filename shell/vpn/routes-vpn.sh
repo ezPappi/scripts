@@ -21,6 +21,7 @@ VPN_DNS1="11.22.33.44"		# DNS 1 on the VPN side
 VPN_DNS2="22.33.44.55"		# DNS 2 on the VPN side
 USER="user_name"		# Local user you run VirtualBox as
 ADAPTER=`su - $USER -c "/usr/local/bin/VBoxManage showvminfo $VM_NAME --machinereadable" |grep bridgeadapter1| awk '{print $2}' `  # Bridge device of the VM
+NETWORKS='10.20.0.0/16 10.30.0.0/24 10.40.0.0/24 10.50.0.0/24 10.100.0.0/24'	# Add custom VPN routes
 ### END of variables ###
 
 
@@ -62,6 +63,12 @@ fi
 
 }
 
+setup_vpn_routing(){
+        for NET in ${NETWORKS} ; do
+                route $ROUTE_CMD -net ${NET} $GWIP
+        done
+}
+
 case ${1} in
         [Cc]|[Cc][Oo][Nn][Nn][Ee][Cc][Tt])
 		# Add new VPN routes 
@@ -69,6 +76,8 @@ case ${1} in
 		find_GW_IP
 		# Update DNS
 		update_dns
+		# Add VPN routes
+		setup_vpn_routing
 		# Finally flush DNS cache
     	killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache
 	;;
@@ -79,6 +88,8 @@ case ${1} in
 		find_GW_IP
 		# Update DNS
 		update_dns
+		# Add VPN routes
+		setup_vpn_routing
 		# Finally flush DNS cache
     	killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache
 	;;
@@ -94,9 +105,3 @@ case ${1} in
 		exit 1
 esac
 
-# Add custom VPN routes:
-route -n $ROUTE_CMD -net 10.20.0.0/16 $GWIP
-route -n $ROUTE_CMD -net 10.30.0.0/24 $GWIP
-route -n $ROUTE_CMD -net 10.40.0.0/24 $GWIP
-route -n $ROUTE_CMD -net 10.50.0.0/24 $GWIP
-route -n $ROUTE_CMD -net 10.100.0.0/16 $GWIP
