@@ -12,3 +12,6 @@ hdiutil detach /Volumes/Install\ macOS\ Mojave
 hdiutil convert ~/Mojave.cdr.dmg -format UDTO -o ~/Desktop/Mojave.iso
 mv ~/Desktop/Mojave.iso.cdr ~/Desktop/Mojave.iso
 rm ~/Mojave.cdr.dmg
+
+# To create bootable USB with OSX: 
+# sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallmedia --volume /Volumes/USB_STICK --nointeraction
