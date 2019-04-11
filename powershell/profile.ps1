@@ -1,3 +1,4 @@
+# Place profile.ps1 in C:\Users\username\Documents\WindowsPowerShell
 # Set default location of my Powershell scripts.
 Set-Location C:\Users\username\Powershell
 
@@ -20,7 +21,6 @@ function Load-Subscriptions {
     Write-Host -NoNewLine "Please Select:"
     Write-Host -NoNewLine ">" -ForegroundColor $foregroundColor
     Write-Host -NoNewLine "["
-    Write-Host -NoNewLine "S" -ForegroundColor $foregroundColor
     Write-Host -NoNewLine "]"
 
     Write-Host -NoNewLine `t`n "1 - " -ForegroundColor $foregroundColor
