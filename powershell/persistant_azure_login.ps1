@@ -1,4 +1,4 @@
-# Install Azure module.
+# Install the Azure Powershell module.
 Install-Module -Name Az -AllowClobber
 
 # Check what you installed.
